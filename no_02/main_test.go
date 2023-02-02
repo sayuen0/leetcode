@@ -54,6 +54,15 @@ func Test_addTwoNumbers(t *testing.T) {
 	}
 }
 
+func BenchmarkAnd(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		addTwoNumbers(
+			NewListNode(6, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+			NewListNode(6, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+		)
+	}
+}
+
 func TestNewListNode(t *testing.T) {
 	type args struct {
 		arr []int
