@@ -1,31 +1,62 @@
 package main
 
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+
 func isPalindrome(head *ListNode) bool {
-	m := make(map[int]int, 0)
-	listIndex := 0
-	current := head
-	for {
-		m[listIndex] = current.Val
-		if !hasNext(current) {
-			break
-		}
-		current = current.Next
-		listIndex++
+	// use two pointers to locate the mid-point of linked list
+	slow, fast := head, head
+
+	for fast != nil && fast.Next != nil {
+
+		slow = slow.Next
+		fast = fast.Next.Next
 	}
 
-	lenM := len(m)
-	for i, j := 0, lenM-1; i < lenM/2; i, j = i+1, j-1 {
-		if !sameNum(m[i], m[j]) {
+	// skip central node if length of linked list is odd number
+	if fast != nil {
+		slow = slow.Next
+	}
+
+	// Reverse the linkage of right half of linked list
+	tail := reverseLinkedList(slow)
+
+	// Accept if left half sequence == right half sequence
+	// Reject, otherwise
+	for tail != nil {
+
+		if tail.Val != head.Val {
 			return false
 		}
+
+		head, tail = head.Next, tail.Next
 	}
+
 	return true
 }
 
-func hasNext(node *ListNode) bool {
-	return node.Next != nil
-}
+func reverseLinkedList(node *ListNode) *ListNode {
+	var prev *ListNode = nil
+	var cur *ListNode = node
 
-func sameNum(a, b int) bool {
-	return a == b
+	for cur != nil {
+
+		// backup original next hop
+		nextHop := cur.Next
+
+		// reverse linkage direction
+		cur.Next = prev
+		prev = cur
+
+		// move to next position
+		cur = nextHop
+
+	}
+	// new head of reversed linked list
+	return prev
 }
