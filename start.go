@@ -53,11 +53,13 @@ func createFiles(dir string, fileName string) {
 		os.Exit(1)
 	}
 
-	err = os.WriteFile(filepath.Join(dir, fileName+".go"), []byte("package main\n"), 0644)
+	fpath := filepath.Join(dir, fileName+".go")
+	err = os.WriteFile(fpath, []byte("package main\n"), 0644)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "error: Unable to create .go file")
 		os.Exit(1)
 	}
+	defer fmt.Println(fpath)
 
 	err = os.WriteFile(filepath.Join(dir, fileName+"_test.go"), []byte("package main\n"), 0644)
 	if err != nil {
